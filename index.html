@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Projet WordPress - Cluster Docker Swarm</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #007acc;
+      color: white;
+      padding: 20px 0;
+      text-align: center;
+    }
+
+    section {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h1, h2 {
+      margin-bottom: 10px;
+    }
+
+    ul {
+      padding-left: 20px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9em;
+      color: #777;
+    }
+
+    .tag {
+      background-color: #007acc;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 4px;
+      font-size: 0.9em;
+      display: inline-block;
+      margin: 5px 5px 10px 0;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Déploiement WordPress Haute Disponibilité</h1>
+  <p>Docker Swarm · GlusterFS · Prometheus · CI/CD · Dokploy</p>
+</header>
+
+<section>
+  <h2>📦 Objectif du projet</h2>
+  <p>
+    Ce projet consiste à déployer une infrastructure WordPress complète, scalable et hautement disponible à l'aide de :
+  </p>
+  <div>
+    <span class="tag">Docker Swarm</span>
+    <span class="tag">GlusterFS</span>
+    <span class="tag">Prometheus</span>
+    <span class="tag">Alertmanager</span>
+    <span class="tag">CI/CD</span>
+    <span class="tag">Dokploy</span>
+  </div>
+
+  <h2>🔧 Composants</h2>
+  <ul>
+    <li>Cluster de 3 VM : <strong>VM1 (Manager)</strong>, <strong>VM2</strong>, <strong>VM3</strong></li>
+    <li>Stockage partagé via <strong>GlusterFS</strong> (volumes WordPress & MariaDB)</li>
+    <li>Monitoring avec <strong>Prometheus</strong> & <strong>Alertmanager</strong></li>
+    <li>Déploiement continu via <strong>Dokploy</strong> connecté à GitHub</li>
+    <li>Infrastructure sécurisée et redondante (compute + storage)</li>
+  </ul>
+
+  <h2>🌐 Accès rapides</h2>
+  <ul>
+    <li><strong>WordPress :</strong> <a href="http://wordpress.vm1.courses.studalya.net" target="_blank">wordpress.vm1.courses.studalya.net</a></li>
+    <li><strong>Dokploy :</strong> <a href="http://dokploy.vm1.courses.studalya.net" target="_blank">dokploy.vm1.courses.studalya.net</a></li>
+    <li><strong>Prometheus :</strong> <a href="http://vm1:9090" target="_blank">vm1:9090</a></li>
+    <li><strong>Alertmanager :</strong> <a href="http://vm1:9093" target="_blank">vm1:9093</a></li>
+    <li><strong>Portainer :</strong> <a href="http://vm1:9000" target="_blank">vm1:9000</a></li>
+  </ul>
+
+  <h2>🧪 Technologies utilisées</h2>
+  <ul>
+    <li>Docker Engine + Swarm Mode</li>
+    <li>GlusterFS pour la persistance des données</li>
+    <li>CI/CD avec GitHub Actions ou webhooks Dokploy</li>
+    <li>Alertes envoyées via Alertmanager vers Discord/Mail</li>
+    <li>Documentation centralisée via Bookstack</li>
+  </ul>
+</section>
+
+<footer>
+  Réalisé par [Ton Nom] — ESGI M1 SRC · 2025
+</footer>
+
+</body>
+</html>
