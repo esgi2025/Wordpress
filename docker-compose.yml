@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  wordpress:
+    image: wordpress:latest
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpresspass
+      WORDPRESS_DB_NAME: wordpress
+    ports:
+      - "80:80"
+    deploy:
+      mode: replicated
+      replicas: 2
+      placement:
+        constraints:
+          - node.role == worker
+    volumes:
+      - wp-data:/var/www/html
+    networks:
+      - wp-net
+
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpresspass
+      MYSQL_ROOT_PASSWORD: rootpass
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == worker
+    volumes:
+      - db-data:/var/lib/mysql
+    networks:
+      - wp-net
+
+volumes:
+  wp-data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /mnt/glusterfs/wordpress
+
+  db-data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /mnt/glusterfs/mysql
+
+networks:
+  wp-net:
+    driver: overlay
