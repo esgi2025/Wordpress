@@ -52,7 +52,7 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: /mnt/mysql_repo
+      device: /mnt/mysql
 
 networks:
   wp-net:
