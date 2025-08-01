@@ -33,6 +33,7 @@ services:
       - /mnt/wordpress:/var/www/html
     networks:
       - wordpress-net
+    command: --default-authentication-plugin=mysql_native_password
     deploy:
       replicas: 1
       restart_policy:
