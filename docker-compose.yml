@@ -1,59 +1,46 @@
 version: '3.8'
 
 services:
-  wordpress:
-    image: wordpress:latest
-    environment:
-      WORDPRESS_DB_HOST: db
-      WORDPRESS_DB_USER: wordpress
-      WORDPRESS_DB_PASSWORD: wordpresspass
-      WORDPRESS_DB_NAME: wordpress
-    ports:
-      - "80:80"
-    deploy:
-      mode: replicated
-      replicas: 2
-      placement:
-        constraints:
-          - node.role == worker
-    volumes:
-      - wp-data:/var/www/html
-    networks:
-      - wp-net
-
   db:
-    image: mysql:5.7
+    image: mysql:8.0
     environment:
       MYSQL_DATABASE: wordpress
-      MYSQL_USER: wordpress
-      MYSQL_PASSWORD: wordpresspass
-      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_USER: user_wp
+      MYSQL_PASSWORD: UnMotDePasseTresSolide
+      MYSQL_ROOT_PASSWORD: UnAutreMotDePasseTresSolide
+    volumes:
+      - /mnt/mysql:/var/lib/mysql
+    networks:
+      - wordpress-net
     deploy:
-      mode: replicated
       replicas: 1
+      restart_policy:
+        condition: on-failure
+      placement:
+        constraints:
+          - node.role == manager
+
+  wordpress:
+    depends_on:
+      - db
+    image: wordpress:latest
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: user_wp
+      WORDPRESS_DB_PASSWORD: UnMotDePasseTresSolide
+      WORDPRESS_DB_NAME: wordpress
+    volumes:
+      - /mnt/wordpress:/var/www/html
+    networks:
+      - wordpress-net
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
       placement:
         constraints:
           - node.role == worker
-    volumes:
-      - db-data:/var/lib/mysql
-    networks:
-      - wp-net
-
-volumes:
-  wp-data:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: /mnt/wordpress
-
-  db-data:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: /mnt/mysql
 
 networks:
-  wp-net:
+  wordpress-net:
     driver: overlay
