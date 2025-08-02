@@ -2,48 +2,48 @@ version: '3.8'
 
 services:
   db:
-    image: mysql:latest
-    restart: always
+    image: mysql:8.0
     environment:
-      MYSQL_ROOT_PASSWORD: MySQLRootPassword
       MYSQL_DATABASE: wordpress
-      MYSQL_USER: wordpress
-      MYSQL_PASSWORD: MySQLUserPassword
+      MYSQL_USER: user_wp
+      MYSQL_PASSWORD: UnMotDePasseTresSolide
+      MYSQL_ROOT_PASSWORD: UnAutreMotDePasseTresSolide
     volumes:
-      - db-data:/var/lib/mysql
+      - /mnt/mysql:/var/lib/mysql
+    networks:
+      - wordpress-net
+    command: --default-authentication-plugin=mysql_native_password
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      placement:
+        constraints:
+          - node.role == manager
 
   wordpress:
     depends_on:
       - db
     image: wordpress:latest
-    restart: always
-    ports:
-      - "80:80"
     environment:
       WORDPRESS_DB_HOST: db:3306
-      WORDPRESS_DB_USER: wordpress
-      WORDPRESS_DB_PASSWORD: MySQLUserPassword
+      WORDPRESS_DB_USER: user_wp
+      WORDPRESS_DB_PASSWORD: UnMotDePasseTresSolide
       WORDPRESS_DB_NAME: wordpress
     volumes:
-      - "/mnt/wordpress:/var/www/html"
+      - /mnt/wordpress:/var/www/html
+    networks:
+      - wordpress-net
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+      placement:
+        constraints:
+          - node.role == worker
 
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    restart: always
-    ports:
-      - "8080:80"
-    environment:
-      PMA_HOST: db
-      PMA_USER: phpmyadmin
-      PMA_PASSWORD: MySQLUserPassword
-
-volumes:
-  db-data:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: /mnt/mysql
-
-
-
+networks:
+  wordpress-net:
+    driver: overlay
