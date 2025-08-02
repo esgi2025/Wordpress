@@ -25,7 +25,7 @@ services:
       - db
     image: wordpress:latest
     environment:
-      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_HOST: db
       WORDPRESS_DB_USER: user_wp
       WORDPRESS_DB_PASSWORD: UnMotDePasseTresSolide
       WORDPRESS_DB_NAME: wordpress
@@ -47,3 +47,4 @@ services:
 networks:
   wordpress-net:
     driver: overlay
+
