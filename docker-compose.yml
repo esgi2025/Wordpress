@@ -4,10 +4,10 @@ services:
   db:
     image: mysql:8.0
     environment:
-      MYSQL_DATABASE: wordpress
-      MYSQL_USER: user_wp
-      MYSQL_PASSWORD: UnMotDePasseTresSolide
-      MYSQL_ROOT_PASSWORD: UnAutreMotDePasseTresSolide
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
     volumes:
       - /mnt/mysql:/var/lib/mysql
     networks:
@@ -27,9 +27,9 @@ services:
     image: wordpress:latest
     environment:
       WORDPRESS_DB_HOST: db:3306
-      WORDPRESS_DB_USER: user_wp
-      WORDPRESS_DB_PASSWORD: UnMotDePasseTresSolide
-      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_USER: ${DB_USER}
+      WORDPRESS_DB_PASSWORD: ${DB_PASSWORD}
+      WORDPRESS_DB_NAME: ${DB_NAME}
     volumes:
       - /mnt/wordpress:/var/www/html
     networks:
@@ -47,3 +47,4 @@ services:
 networks:
   wordpress-net:
     driver: overlay
+
